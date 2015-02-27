@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * implements hook_schema
+ */
+ 
+function mapa_schema() {
+  
+  $schema['mapa'] = array(
+    'description' => 'The base table for nodes.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The primary identifier for a node.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'telefone' => array(
+        'description' => 'The current {node_revision}.vid version identifier.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'nome' => array(
+        'description' => 'The node_type of this node.',
+        'type' => 'text',
+        'length' => 120,
+        'not null' => TRUE,
+      ),
+      'email' => array(
+        'description' => 'The title of this node, always treated as non-markup plain text.',
+        'type' => 'text',
+        'length' => 120,
+        'not null' => TRUE,
+      ),
+       'estado' => array(
+         'description' => "Estado",
+         'type' => 'text',
+         'length' => 80,
+         'not null' => TRUE,
+       ),
+       ),
+    'indexes' => array(
+      'mapa_telefone' => array('telefone'),
+    ),
+    'primary key' => array('id'),
+    );
+  return $schema;
+}
+

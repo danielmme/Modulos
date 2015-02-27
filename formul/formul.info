@@ -1,0 +1,12 @@
+name = formul
+description ="formulario personalizado"
+core = 7.x
+version = 1.x-1.0
+
+dependencies[] = webform
+
+files[]=formul_template.tpl.php
+
+
+
+

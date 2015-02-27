@@ -1,0 +1,171 @@
+<?php
+
+/**
+ * to add jquery libraries.
+ */
+
+drupal_add_js(drupal_get_path('module', 'mapa') . '/js/jquery-1.11.0.min.js');
+drupal_add_js(drupal_get_path('module', 'mapa') . '/js/jquery-migrate-1.2.1.js');
+drupal_add_js(drupal_get_path('module', 'mapa') . '/js/script.js');
+
+
+function mapa_theme($existing, $type, $theme, $path){
+  return array(
+    
+     'mapa' => array(
+      'variables' => array(
+        'var_ac' => NULL,
+        'var_two' => NULL,
+        'var_three' => NULL,
+        'var_for' => NULL,                                                                
+),
+      'template' => '/theme/mapa', 
+    ),
+  );
+}
+
+
+/**
+ * implements hook_menu().
+ */
+
+ function mapa_menu() {
+   $items = array();
+  
+
+    $items['cadastro_representantes'] = array(
+    'title' => 'Cadastro de Representantes',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('submit mapa'),
+    'page callback' => 'drupal_get_form',
+    'page arguments'=> array('mapa_form'),
+   );
+    $items['formularios_submetidos'] = array(
+    'title' => 'Pagina de Formulario',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('acess mapa submissions'),
+    'page callback' => 'mapa_submissions',
+   );
+    $items['mapa/%'] = array(
+    'title' => 'Página Mapa',
+    'page callback' => 'mapa_extra',
+    'page arguments' => array(1),
+    'access arguments'=> array('access content'),
+    'file'=> 'mapa_extra.inc',
+   );
+   
+  return $items;
+ }
+
+/**
+ * implements hook_permission().
+ */
+
+ function mapa_permission() {
+  return array(
+      'submit mapa' => array(
+      'title' => t('Enviar'),
+      'description' => t('Submit the form'),
+      ),
+      'access mapa submissions' => array(
+      'title' => t('Acessar formulario'),
+      'description' => t('Submit the form'),
+      ),
+  );
+ }
+
+/**
+ * implements hook_form().
+ */
+
+function mapa_form($form, &$form_state){
+  
+  $form['nome'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Nome Completo'),
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#required' => TRUE,
+    '#description'=> t('Digite o Nome do Representante'),
+  );
+   $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+    '#required' => TRUE,
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#description'=> t('Digite o E-mail'),
+  );
+    $form['estado'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Estado'),
+    '#size' => 60,
+    '#maxlength' => 128,
+    '#required' => TRUE,
+    '#description'=> t('Estado do Representante'),
+  );
+  
+     $form['telefone'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Contato Telefônico'),
+    '#size' => 30,
+    '#maxlength' => 60,
+    '#required' => TRUE,
+    '#description'=> t('Digite o telefone'),
+  );
+    $form['submit']=array(
+    '#type'=>'submit',
+    '#value'=>t('Enviar'),
+   );
+ 
+ return $form;
+}
+  
+  function mapa_form_validate($form, &$form_state){
+  if (!is_numeric($form_state['values']['telefone'])){
+    form_set_error('telefone', t('Digite apenas números!'));
+    return FALSE;
+  }
+  return TRUE;
+  }
+
+  
+  function mapa_form_submit($form_id, &$form_state) {
+  $id = db_insert('mapa')
+  ->fields(array(
+    'nome'=>$form_state['values']['nome'],
+    'telefone'=>$form_state['values']['telefone'],
+    'email'=>$form_state['values']['email'],
+    'estado'=>$form_state['values']['estado'],
+    ))
+  ->execute();
+  drupal_set_message(t('Informações Registradas com Sucesso!'));
+}
+
+/**
+ *View the form submissions.
+ */
+
+  function mapa_submissions(){
+    
+  $query = db_select('mapa', 'mp')
+  
+  ->fields('mp', array('estado', 'nome', 'telefone', 'email',));
+  $results = $query->execute();
+  
+  $header = array(t('Estado'),t('Nome'),t('Contato'),t('E-mail'));
+  $rows = array();
+  
+   foreach($results as $result){
+    $rows[] =array(
+      $result->estado,
+       $result->nome,
+        $result->telefone,
+         $result->email,
+         ); 
+   }
+  return theme('table', array('header'=>$header, 'rows'=>$rows));
+ }
+ 
+
+

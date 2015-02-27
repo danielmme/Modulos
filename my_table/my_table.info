@@ -1,0 +1,19 @@
+name = my_table
+description = "tabela personalizada"
+core = 7.x
+version = 1.x-1.0
+
+dependencies[] = views
+dependencies[] = webform
+
+files[]= my_table.views.inc
+files[]= my_table.install
+
+
+files[]= my_table_handler_field_soma.inc
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+
+
+
+table.teste_daniel{
+   display:inline-table;
+   background-color:#2891D2;
+   width:30%;
+}
+div.daniel{
+    border-width:3px;
+    border-color:black;
+    border-style: solid;
+    width:100%;
+}

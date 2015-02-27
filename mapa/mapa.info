@@ -1,0 +1,12 @@
+name = Mapa
+description ="Mapa do Brasil com a distribuição de representantes comerciais da Camisaria Cruz"
+core = 7.x
+version = 1.x-1.0
+
+files[]=mapa_template.tpl.php
+files[]=mapa_extra.inc
+
+
+
+
+

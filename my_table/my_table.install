@@ -1,0 +1,83 @@
+<?php
+
+
+
+// Rename the new field to the name of the old field
+
+db_change_field('webform_submitted_data', 'data', 'data', array(
+         'type' => 'int', 
+         'length' => 11,
+         'description' => 'Timestamp for when card was last reviewed.'));
+
+
+/**
+ * implements hook_schema
+ */
+
+function my_table_schema() {
+
+ $schema['tabela'] = array(
+    'description' => 'The base table for my own example.',
+    'fields' => array(
+        
+    'dan'=>array(
+    'description' => 'The primary identifier for a node.',
+    'type' => 'serial',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    ),
+    
+    'cid'=>array(
+    'type' => 'int',
+    'description' => "New Col",
+    'size' => 'small',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  ),
+    'data' => array(
+    'type' => 'int',
+    'description' => "New Col 2",
+    'length' => 20,
+    'not null' => FALSE,
+  ),
+    'submitted' => array(
+    'type' => 'int',
+    'description' => "New Col 3",
+    'length' => 20,
+    'not null' => TRUE,
+  ),
+    'name' => array(
+    'type' => 'varchar',
+    'description' => "New Col 4",
+    'length' => 128,
+    'not null' => FALSE,
+  ),
+    'weight' => array(
+    'type' => 'int',
+    'description' => "New Col 5",
+    'size' => 'small',
+    'not null' => TRUE,
+    'default' => 0,
+  ),
+    'type' => array(
+    'type' => 'varchar',
+    'description' => "New Col 6",
+    'length' => 128,
+ 
+  ),
+    ),
+    
+    'indexes' => array(
+    'my_table_number' => array('cid'),
+    ),
+    
+    'primary key' => array('dan', 'cid'),
+  );
+  
+  return $schema;
+}
+      
+
+
+
