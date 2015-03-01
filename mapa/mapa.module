@@ -1,30 +1,14 @@
 <?php
 
-/**
+
+
+ /**
  * to add jquery libraries.
  */
 
-drupal_add_js(drupal_get_path('module', 'mapa') . '/js/jquery-1.11.0.min.js');
-drupal_add_js(drupal_get_path('module', 'mapa') . '/js/jquery-migrate-1.2.1.js');
+drupal_add_js(drupal_get_path('module', 'mapa') . '/js/jquery-2.1.3.js');
 drupal_add_js(drupal_get_path('module', 'mapa') . '/js/script.js');
-
-
-function mapa_theme($existing, $type, $theme, $path){
-  return array(
-    
-     'mapa' => array(
-      'variables' => array(
-        'var_ac' => NULL,
-        'var_two' => NULL,
-        'var_three' => NULL,
-        'var_for' => NULL,                                                                
-),
-      'template' => '/theme/mapa', 
-    ),
-  );
-}
-
-
+drupal_get_path('module', 'mapa') . '/theme/mapa_brasil.svg';
 /**
  * implements hook_menu().
  */
@@ -48,10 +32,12 @@ function mapa_theme($existing, $type, $theme, $path){
    );
     $items['mapa/%'] = array(
     'title' => 'Página Mapa',
+    'type' => MENU_CALLBACK,
     'page callback' => 'mapa_extra',
     'page arguments' => array(1),
     'access arguments'=> array('access content'),
     'file'=> 'mapa_extra.inc',
+ 
    );
    
   return $items;
@@ -166,6 +152,23 @@ function mapa_form($form, &$form_state){
    }
   return theme('table', array('header'=>$header, 'rows'=>$rows));
  }
- 
+
+
+
+function mapa_theme($existing, $type, $theme, $path) {
+  return array(
+
+    'mapa' => array(
+      'variables'=> array(
+        'var_estado' => NULL,
+        'var_nome' => NULL,
+        'var_telefone' => NULL,
+        'var_email' => NULL,
+    
+        ),
+      'template' =>'theme/mapa',
+    ),
+    );
+}
 
 

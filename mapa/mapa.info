@@ -3,10 +3,14 @@ description ="Mapa do Brasil com a distribuição de representantes comerciais d
 core = 7.x
 version = 1.x-1.0
 
-files[]=mapa_template.tpl.php
-files[]=mapa_extra.inc
+
+
+; Includes
+files[]= mapa_extra.inc
+files[]= theme/mapa.tpl.php
 
 
 
-
+; CSS
+stylesheets[all][] = css/mapa.css
 
